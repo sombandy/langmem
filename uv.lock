@@ -796,6 +796,7 @@ name = "langmem-examples"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "langchain-anthropic" },
     { name = "langchain-community" },
     { name = "langchain-openai" },
     { name = "langgraph" },
@@ -809,6 +810,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "langchain-anthropic", specifier = ">=0.3.20" },
     { name = "langchain-community", specifier = ">=0.3.29" },
     { name = "langchain-openai", specifier = ">=0.3.33" },
     { name = "langgraph", specifier = ">=0.6.7" },

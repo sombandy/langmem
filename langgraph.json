@@ -1,6 +1,8 @@
 {
     "dependencies": ["."],
     "graphs": {
-      "finance": "src/agent/finance.py:agent"
-    }
+      "profile": "src/agent/profile.py:agent",
+      "profile_delayed": "src/agent/profile_delayed.py:agent"
+    },
+   "env": "./.env"
   }

@@ -3,6 +3,7 @@ name = "langmem-examples"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "langchain-anthropic>=0.3.20",
     "langchain-community>=0.3.29",
     "langchain-openai>=0.3.33",
     "langgraph>=0.6.7",
