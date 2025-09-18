@@ -1,14 +1,19 @@
 from typing import Annotated
+
 from typing_extensions import TypedDict
 
 from langchain.chat_models import init_chat_model
-from langchain_core.messages import AnyMessage
+from langchain_community.cache import SQLiteCache
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
+from langchain_core.globals import set_llm_cache
+from langchain_core.messages import AnyMessage
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
 from langgraph.utils.config import get_store
 from langmem import ReflectionExecutor, create_memory_store_manager
+
+set_llm_cache(SQLiteCache(database_path=".langchain.db"))
 
 memory_manager = create_memory_store_manager(
     "openai:gpt-4o-mini",
@@ -50,7 +55,7 @@ async def chat(state: State):
     user_content = getattr(last_user, "content", last_user[1] if isinstance(last_user, tuple) else str(last_user))
     to_process = {"messages": [{"role": "user", "content": user_content}, response]}
 
-    delay = 10  # Typically 30-60 minutes in production
+    delay = 15  # Typically 30-60 minutes in production
     executor.submit(to_process, after_seconds=delay)
 
     return {"messages": [response]}

@@ -1,14 +1,16 @@
 import asyncio
 
 from dotenv import load_dotenv
-
+from langchain_community.cache import SQLiteCache
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
+from langchain_core.globals import set_llm_cache
 from langgraph.prebuilt import create_react_agent
 from langgraph.store.memory import InMemoryStore
 from langgraph.utils.config import get_store
 from langmem import create_manage_memory_tool
 
 load_dotenv()
+set_llm_cache(SQLiteCache(database_path=".langchain.db"))
 
 async def prompt(state):
     """Prepare the messages for the LLM."""
@@ -44,11 +46,13 @@ async def test_agent():
     agent.store = store
 
     async for chunk in agent.astream(
-        {"messages": [("user", "I have purchased some tesla stocks")]},
+        {"messages": [("user", "I'm Som, I have purchased some tesla stocks")]},
         stream_mode="updates"
     ):
         print(chunk)
         print("\n")
+
+    print(store.search(("memories",)))
 
 if __name__ == "__main__":
     asyncio.run(test_agent())
